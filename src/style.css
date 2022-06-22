@@ -1,0 +1,11 @@
+.main {
+    display: grid;
+    grid-template-columns: 1fr 7fr;
+    min-height: 90vh;
+}
+
+.navPanel,
+.mainPanel {
+    min-height: 100%;
+    border: 1px solid black;
+}
