@@ -9,3 +9,8 @@
     min-height: 100%;
     border: 1px solid black;
 }
+
+.spaceBetween {
+    display: flex;
+    justify-content: space-between;
+}
