@@ -18,12 +18,14 @@ const createLeftPanel = () => {
     navHeading.textContent = 'My Projects';
 
     const projectList = document.createElement('ul');
+    projectList.setAttribute('id', 'projectList')
     const demoProject = document.createElement('li');
     demoProject.textContent = 'Demo Project';
     projectList.append(demoProject);
 
     const createNewProject = document.createElement('input');
     createNewProject.setAttribute('type', 'text');
+    createNewProject.setAttribute('id', 'newProjectInput');
     createNewProject.setAttribute('placeholder', 'Create a new project');
 
     const deleteProjectButton = document.createElement('button');
