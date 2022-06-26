@@ -1,11 +1,12 @@
 import './style.css';
 import { renderPage } from "./renderPage";
 import { leftPanelActions } from "./leftPanelActions";
-import { updateCompletionStatus, updateMainPane } from "./mainPanelActions";
+import { mainPaneActions, updateMainPane } from "./mainPanelActions";
 
 renderPage()
 
-leftPanelActions()
+leftPanelActions();
+mainPaneActions();
 
 updateMainPane('default')
 

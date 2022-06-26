@@ -1,6 +1,6 @@
 import { project, projects } from "./projects.js";
 import { updateMainPane } from "./mainPanelActions";
-
+import { showModal } from "./renderPage";
 
 
 const searchBar = () => {
@@ -71,6 +71,11 @@ const populateProjectList = (projectList) => {
 
 }
 
+const deleteProject =  () => {
+    const deleteProjectButton = document.getElementById('deleteProjectButton');
+    deleteProjectButton.addEventListener('click', showModal)
+}
+
 const leftPanelActions = () => {
 
     searchBar()
@@ -78,6 +83,8 @@ const leftPanelActions = () => {
     addNewProjectField()
     
     populateProjectList(projects)
+
+    deleteProject()
     
 }
 

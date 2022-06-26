@@ -1,4 +1,5 @@
 import { projects } from "./projects.js";
+import { showModal } from "./renderPage";
 
 const updateMainPane = (content) => {
     
@@ -85,4 +86,22 @@ const updateCompletionStatus = (project) => {
 
 
 
-export { updateCompletionStatus, updateMainPane }
+const addTask = () => {
+    const addTaskButton = document.getElementById('addTaskButton')
+    addTaskButton.addEventListener('click', showModal)
+}
+
+const removeTask = () => {
+    const removeTaskButton = document.getElementById('removeTaskButton')
+removeTaskButton.addEventListener('click', showModal);
+    
+}
+
+const mainPaneActions = () => {
+    addTask()
+    removeTask()
+}
+
+
+
+export { updateCompletionStatus, updateMainPane, mainPaneActions }

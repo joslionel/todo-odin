@@ -29,6 +29,7 @@ const createLeftPanel = () => {
     createNewProject.setAttribute('placeholder', 'Create a new project');
 
     const deleteProjectButton = document.createElement('button');
+    deleteProjectButton.setAttribute('id', 'deleteProjectButton')
     deleteProjectButton.textContent = 'Delete selected project';
 
     leftPanel.append(navSearchBar, navHeading, projectList, createNewProject, deleteProjectButton);
@@ -60,9 +61,11 @@ const createRightPanel = () => {
 
     const addTaskButton = document.createElement('button')
     addTaskButton.textContent = 'Add task'
+    addTaskButton.setAttribute('id', 'addTaskButton')
 
     const removeTaskButton = document.createElement('button')
     removeTaskButton.textContent = 'Remove task'
+    removeTaskButton.setAttribute('id', 'removeTaskButton')
 
     mainAddTask.append(addTaskButton, removeTaskButton)
 
@@ -73,6 +76,46 @@ const createRightPanel = () => {
     return mainPanel
 }
 
+const createModalWindow = () => {
+    const modalParent = document.createElement('div')
+    modalParent.classList.add('modalParent')
+    const modal = document.createElement('div')
+    modal.classList.add('modalWindow')
+    modalParent.classList.add('hide')
+
+    modalParent.append(modal)
+
+    modalParent.addEventListener('click', function (e) {
+        if (e.target == modalParent) {modalParent.classList.toggle('hide')}
+    })
+
+    return modalParent
+}
+
+// these modal variations should have content & structure inside the functions
+// then thse functions are passed into showModal as switch statement based on parameter
+// that is passed from button click (in the other modules)
+// this will allow the relevant stuff to the applied to the modal window when a button is pressed
+
+const addTaskModal = () => {
+    
+}
+
+const removeProjectModal = () => {
+
+}
+
+const removeTaskModal = () => {
+
+}
+
+const showModal = () => {
+    const addTaskModal = document.querySelector('.modalParent')
+    
+    addTaskModal.classList.toggle('hide')
+        
+}
+
 const renderPage = () => {
     const mainFrame = createMainFrame()    
 
@@ -80,11 +123,13 @@ const renderPage = () => {
 
     const rightPanel = createRightPanel()
 
-    mainFrame.append(leftPanel, rightPanel);
+    const modalWindow = createModalWindow()
+
+    mainFrame.append(leftPanel, rightPanel, modalWindow);
 
     document.body.append(mainFrame);
 
     return {mainFrame}
 }
 
-export {renderPage};
+export {renderPage, showModal};
