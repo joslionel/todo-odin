@@ -1,4 +1,5 @@
 import { project, projects } from "./projects.js";
+import { updateMainPane } from "./mainPanelActions";
 
 
 
@@ -16,14 +17,15 @@ const searchBar = () => {
 
 const listOfProjects = () => {
 
-    // todo: possibly bring in the main pane update function here??
-
     const eachproject = document.querySelectorAll('.project')
 
     
     eachproject.forEach(project => {
         project.addEventListener('click', function (e) {
-            console.log(e.target.textContent)
+            
+            const focusProject = projects.filter(project => project.projectName == e.target.textContent);
+            
+            updateMainPane(focusProject[0])
         })
     });
 
@@ -37,7 +39,7 @@ const addNewProjectField = () => {
 
     addNewField.addEventListener('keypress', function (e) {
         if (e.key === 'Enter') {
-            projects.push(project(`${e.target.value}`, [], 1, ''))
+            projects.push(project(`${e.target.value}`, [], 1, '', 0))
             e.target.value = '';
         }
 

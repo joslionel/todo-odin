@@ -1,28 +1,4 @@
-const projects = [
-    {
-        'projectName': 'Default Prawbect',
-        'projectTasks': [
-            'Step 1',
-            'Step 2',
-            'Step 3',
-        ],
-        'projectPriority': 1,
-        'dueDate': '',
-        'isCompleted': 0,
-    },
-
-    {
-        'projectName': 'Project 2',
-        'projectTasks': [
-            'Step 1',
-            'Step 2',
-            'Step 3',
-        ],
-        'projectPriority': 1,
-        'dueDate': '',
-        'isCompleted': 0,
-    },
-]
+const projects = []
 
 const project = (projectName, projectTasks, projectPriority, dueDate) => {
     
@@ -41,14 +17,31 @@ const project = (projectName, projectTasks, projectPriority, dueDate) => {
         }
     }
 
+    let tasksCompleted = []
+
     return {
         projectName,
         projectTasks,
+        tasksCompleted,
         projectPriority,
         dueDate,
+        tasksCompleted,
         toggleCompleted,
         getCompleted,
     }
 }
+
+projects.push(project(
+    'Default Prawbect',
+    [
+        'Step 1',
+        'Step 2',
+        'Step 3',
+    ],
+    1,
+    '',
+))
+projects.push(project('Project 2', ['Task 1', 'Task 2', 'Task 3'], 0, ''))
+projects[1].toggleCompleted()
 
 export {projects, project}

@@ -43,10 +43,12 @@ const createRightPanel = () => {
     const mainPanelHeading = document.createElement('div');
 
     const mainHeading = document.createElement('h2');
-    mainHeading.textContent = "Project Name"
+    mainHeading.textContent = "Project Name";
+    mainHeading.setAttribute('id', 'projectName')
     mainPanelHeading.classList.add('spaceBetween');
 
     const mainTaskRemaining = document.createElement('h3');
+    mainTaskRemaining.setAttribute('id', 'tasksRemaining')
     mainTaskRemaining.textContent = 'x/y tasks completed'
 
     const mainTaskList = document.createElement('div');
