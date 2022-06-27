@@ -79,10 +79,15 @@ const createRightPanel = () => {
 const createModalWindow = () => {
     const modalParent = document.createElement('div')
     modalParent.classList.add('modalParent')
-    const modal = document.createElement('div')
-    modal.classList.add('modalWindow')
     modalParent.classList.add('hide')
 
+    const modal = document.createElement('div')
+    modal.classList.add('modalWindow')
+
+    const modalContent = document.createElement('div');
+    modalContent.setAttribute('id', 'modalContent')
+
+    modal.append(modalContent)
     modalParent.append(modal)
 
     modalParent.addEventListener('click', function (e) {
@@ -97,8 +102,15 @@ const createModalWindow = () => {
 // that is passed from button click (in the other modules)
 // this will allow the relevant stuff to the applied to the modal window when a button is pressed
 
-const addTaskModal = () => {
-    
+const addTaskContent = () => {
+    const contentBox = document.getElementById('modalContent')
+
+    const heading = document.createElement('h3');
+    heading.textContent = 'Add task(s)';
+
+    contentBox.append(heading)
+
+    return contentBox
 }
 
 const removeProjectModal = () => {
@@ -109,10 +121,20 @@ const removeTaskModal = () => {
 
 }
 
-const showModal = () => {
+const showModal = (content) => {
     const addTaskModal = document.querySelector('.modalParent')
-    
+    const modal = document.querySelector('.modalWindow')
+
     addTaskModal.classList.toggle('hide')
+
+    switch (content) {
+        case 'addTask':
+            modal.append(addTaskContent());
+            break;
+    
+        default:
+            break;
+    }
         
 }
 

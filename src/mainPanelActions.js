@@ -88,7 +88,9 @@ const updateCompletionStatus = (project) => {
 
 const addTask = () => {
     const addTaskButton = document.getElementById('addTaskButton')
-    addTaskButton.addEventListener('click', showModal)
+    addTaskButton.addEventListener('click', function () {
+        showModal('addTask')
+    })
 }
 
 const removeTask = () => {
