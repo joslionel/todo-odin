@@ -1,3 +1,12 @@
+import { updateMainPane } from "./mainPanelActions";
+import { projects } from "./projects";
+
+const getProject = () => {
+    const projectName = document.getElementById('projectName');
+    const project = projects.filter(project => project.projectName == projectName.textContent)
+    return project[0]
+}
+
 const createMainFrame = () => {
     const mainFrame = document.createElement('div');
     mainFrame.classList.add('main');
@@ -88,11 +97,14 @@ const createModalWindow = () => {
     modalContent.setAttribute('id', 'modalContent')
 
     modal.append(modalContent)
-    modalParent.append(modal)
-
+    
     modalParent.addEventListener('click', function (e) {
-        if (e.target == modalParent) {modalParent.classList.toggle('hide')}
+        if (e.target == modalParent) {hideModal()}
     })
+
+    
+    
+    modalParent.append(modal)
 
     return modalParent
 }
@@ -105,12 +117,64 @@ const createModalWindow = () => {
 const addTaskContent = () => {
     const contentBox = document.getElementById('modalContent')
 
+    contentBox.innerHTML = ''
+
     const heading = document.createElement('h3');
     heading.textContent = 'Add task(s)';
 
-    contentBox.append(heading)
+    const taskInput = document.createElement('input');
+    taskInput.setAttribute('type', 'text');
+    taskInput.setAttribute('id', 'newTaskInput')
+    const taskInputLabel = document.createElement('label');
+    taskInputLabel.setAttribute('for', 'newTaskInput')
+    taskInputLabel.textContent = 'Task name'
+
+    const taskDueDate = document.createElement('input');
+    taskDueDate.setAttribute('type', 'date');
+    taskDueDate.setAttribute('id', 'newTaskDueDate');
+    const taskDueDateLabel = document.createElement('label');
+    taskDueDateLabel.setAttribute('for', 'newTaskInput');
+    taskDueDateLabel.textContent = 'Task due';
+
+    const taskDescription = document.createElement('textarea');
+    taskDescription.setAttribute('type', 'text');
+    taskDescription.setAttribute('id', 'newTaskDescription')
+    const taskDescriptionLabel = document.createElement('label');
+    taskDescriptionLabel.setAttribute('for', 'newTaskDescription')
+    taskDescriptionLabel.textContent = 'Notes'
+
+    const buttonsContainer = document.createElement('div')
+    buttonsContainer.setAttribute('id', 'addTaskButtonsContainer')
+    buttonsContainer.classList.add('justifyContentEnd')
+
+    const closeButton = document.createElement('button');
+    closeButton.setAttribute('id', 'closeModal');
+    closeButton.textContent = 'Close'
+    closeButton.addEventListener('click', function (e) {
+        hideModal()
+    })
+    
+    const submitButton = document.createElement('button');
+    submitButton.textContent = 'Add task'
+
+    submitButton.addEventListener('click', function (e) {
+        submitNewTask(taskInput.value, taskDueDate.value, taskDescription.value)
+    })
+    
+    buttonsContainer.append(submitButton, closeButton)
+
+    contentBox.append(heading, taskInputLabel, 
+        taskInput, taskDueDateLabel, 
+        taskDueDate, taskDescriptionLabel, 
+        taskDescription, buttonsContainer)
 
     return contentBox
+}
+
+const submitNewTask = (task, duedate, notes) => {
+    getProject().projectTasks.push([task, duedate, notes])
+    hideModal();
+    updateMainPane(getProject());
 }
 
 const removeProjectModal = () => {
@@ -122,10 +186,18 @@ const removeTaskModal = () => {
 }
 
 const showModal = (content) => {
-    const addTaskModal = document.querySelector('.modalParent')
+
+    const modalParent = document.querySelector('.modalParent')
     const modal = document.querySelector('.modalWindow')
 
-    addTaskModal.classList.toggle('hide')
+    modalParent.classList.toggle('hide')
+
+    
+    document.addEventListener('keydown', function (e) {
+        if (e.key == 'Escape') {
+            hideModal()
+        }
+    }, {once: true})
 
     switch (content) {
         case 'addTask':
@@ -133,9 +205,18 @@ const showModal = (content) => {
             break;
     
         default:
+            modal.innerHTML = '';
             break;
     }
+
+    
         
+}
+
+const hideModal = () => {
+    const modalWindow = document.querySelector('.modalParent')
+    modalWindow.classList.add('hide')
+
 }
 
 const renderPage = () => {

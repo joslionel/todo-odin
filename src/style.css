@@ -15,6 +15,15 @@
     justify-content: space-between;
 }
 
+.alignSelfEnd {
+    align-self: end;
+}
+
+.justifyContentEnd {
+    display: flex;
+    justify-content: end;
+}
+
 .hide {
     visibility: hidden;
 }
@@ -38,4 +47,26 @@
     border-radius: 1em;
     background-color: cornflowerblue;
     cursor: auto;
+}
+
+#modalContent {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+#modalContent > input {
+    margin-bottom: 1em;
+}
+
+#modalContent > textarea {
+    margin-bottom: 1em;
+}
+
+#modalContent > label {
+    margin-bottom: .25em;
+}
+
+#addTaskButtonsContainer > button {
+    margin-left: .25em;
 }

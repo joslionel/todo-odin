@@ -57,6 +57,8 @@ const updateMainPane = (content) => {
 
         updateCompletionStatus(project)
     }
+
+    
 }
 
 const completeSubTask = (project, e) => {
@@ -100,6 +102,7 @@ removeTaskButton.addEventListener('click', showModal);
 }
 
 const mainPaneActions = () => {
+    
     addTask()
     removeTask()
 }
