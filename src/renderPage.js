@@ -177,12 +177,67 @@ const submitNewTask = (task, duedate, notes) => {
     updateMainPane(getProject());
 }
 
-const removeProjectModal = () => {
+const removeProjectContent = () => {
+    const contentBox = document.getElementById('modalContent')
 
+    contentBox.innerHTML = ''
+
+    const heading = document.createElement('h3');
+    heading.textContent = 'Remove project(s)';
+
+    contentBox.append(heading)
+
+    return contentBox
 }
 
-const removeTaskModal = () => {
+const removeTask = (taskTitle) => {
+    getProject().projectTasks = getProject().projectTasks.filter(project => project[0] != taskTitle.textContent)
+    updateMainPane(getProject())
+    showModal('removeTask')    
+}
 
+const removeTaskContent= () => {
+    const contentBox = document.getElementById('modalContent')
+
+    contentBox.innerHTML = ''
+
+    const heading = document.createElement('h3');
+    heading.textContent = 'Remove task(s)';
+
+    const taskContainer = document.createElement('div');
+    const taskList = document.createElement('ul')
+     getProject().projectTasks.forEach(project => {
+        const taskTitle = document.createElement('li')
+        taskTitle.textContent = project[0]
+
+        taskTitle.setAttribute('data-index', getProject().projectTasks.indexOf(project, 0))
+        taskList.append(taskTitle)
+
+        
+
+        taskTitle.addEventListener('click', function (e) {removeTask(taskTitle)})
+     });
+
+    const buttonsContainer = document.createElement('div')
+    buttonsContainer.setAttribute('id', 'addTaskButtonsContainer')
+    buttonsContainer.classList.add('justifyContentEnd')
+
+    const closeButton = document.createElement('button');
+    closeButton.setAttribute('id', 'closeModal');
+    closeButton.textContent = 'Close'
+    closeButton.addEventListener('click', function (e) {
+        hideModal()
+    })
+
+    buttonsContainer.append(closeButton)
+
+    taskContainer.append(taskList, buttonsContainer)
+
+    contentBox.append(heading, taskContainer)
+
+    
+
+    return contentBox
 }
 
 const showModal = (content) => {
@@ -190,7 +245,7 @@ const showModal = (content) => {
     const modalParent = document.querySelector('.modalParent')
     const modal = document.querySelector('.modalWindow')
 
-    modalParent.classList.toggle('hide')
+    modalParent.classList.remove('hide')
 
     
     document.addEventListener('keydown', function (e) {
@@ -202,6 +257,14 @@ const showModal = (content) => {
     switch (content) {
         case 'addTask':
             modal.append(addTaskContent());
+            break;
+        
+        case 'removeTask':
+            modal.append(removeTaskContent());
+            break;
+
+        case 'removeProject':
+            modal.append(removeProjectContent());
             break;
     
         default:

@@ -73,7 +73,9 @@ const populateProjectList = (projectList) => {
 
 const deleteProject =  () => {
     const deleteProjectButton = document.getElementById('deleteProjectButton');
-    deleteProjectButton.addEventListener('click', showModal)
+    deleteProjectButton.addEventListener('click', function () {
+        showModal('removeProject')
+    })
 }
 
 const leftPanelActions = () => {

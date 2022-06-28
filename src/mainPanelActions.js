@@ -27,7 +27,7 @@ const updateMainPane = (content) => {
 
 
         const mainPaneTitle = document.createElement('h3');
-        const mainPaneSubTasks = document.createElement('ul');
+        const mainPaneSubTasks = document.createElement('div');
         const mainPaneComplete = document.createElement('h3');
         mainPaneComplete.setAttribute('id', 'completionStatus')
         const mainPaneDueDate = document.createElement('p');
@@ -41,15 +41,30 @@ const updateMainPane = (content) => {
 
         if (content.projectTasks) {
             content.projectTasks.forEach(task => {
-                let step = document.createElement('li');
-                step.textContent = task;
-                step.setAttribute('data-index', `${content.projectTasks.indexOf(task, 0)}`)
+                const stepContainer = document.createElement('div')
+                
+                const stepHeadContainer = document.createElement('div');
+                stepHeadContainer.classList.add('spaceBetween')
+                
+                const stepTitle = document.createElement('h3');
+                stepTitle.textContent = task[0];
+                
+                const stepDueDate = document.createElement('p');
+                stepDueDate.textContent = task[1];
+                stepHeadContainer.append(stepTitle, stepDueDate)
 
-                step.addEventListener('click', function (e) {
+                const stepNotes = document.createElement('p');
+                stepNotes.textContent = task[2];
+
+                stepContainer.append(stepHeadContainer, stepNotes)
+
+                stepContainer.setAttribute('data-index', `${content.projectTasks.indexOf(task, 0)}`)
+
+                stepContainer.addEventListener('click', function (e) {
                     completeSubTask(project, e)
                 })
 
-                mainPaneSubTasks.append(step)
+                mainPaneSubTasks.append(stepContainer)
             });
         }
 
@@ -97,7 +112,9 @@ const addTask = () => {
 
 const removeTask = () => {
     const removeTaskButton = document.getElementById('removeTaskButton')
-removeTaskButton.addEventListener('click', showModal);
+    removeTaskButton.addEventListener('click', function () {
+        showModal('removeTask')
+    });
     
 }
 

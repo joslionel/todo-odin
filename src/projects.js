@@ -34,14 +34,14 @@ const project = (projectName, projectTasks, projectPriority, dueDate) => {
 projects.push(project(
     'Default Prawbect',
     [
-        'Step 1',
-        'Step 2',
-        'Step 3',
+        ['Step 1', '29-06-2022', 'Notes about step 1'],
+        ['Step 2', '29-06-2022', 'Notes about step 1'],
+        ['Step 3', '29-06-2022', 'Notes about step 1'],
     ],
     1,
     '',
 ))
-projects.push(project('Project 2', ['Task 1', 'Task 2', 'Task 3'], 0, ''))
+projects.push(project('Project 2', [['Task 1', '29-06-2022', 'Notes about step 1'], ['Task 2', '29-06-2022', 'Notes about step 1'], ['Task 3', '29-06-2022', 'Notes about step 1']], 0, ''))
 projects[1].toggleCompleted()
 
 export {projects, project}
