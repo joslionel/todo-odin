@@ -1,6 +1,7 @@
 import { populateProjectList } from "./leftPanelActions";
 import { updateMainPane } from "./mainPanelActions";
 import { projects } from "./projects"
+import { format, formatDistanceToNow } from "../node_modules/date-fns";
 
 
 
@@ -161,7 +162,11 @@ const addTaskContent = () => {
     submitButton.textContent = 'Add task'
 
     submitButton.addEventListener('click', function (e) {
-        submitNewTask(taskInput.value, taskDueDate.value, taskDescription.value)
+        
+        let date = format(new Date(taskDueDate.value), 'dd/MM/yyyy')
+        
+        
+        submitNewTask(taskInput.value, date, taskDescription.value)
     })
     
     buttonsContainer.append(submitButton, closeButton)
@@ -175,7 +180,8 @@ const addTaskContent = () => {
 }
 
 const submitNewTask = (task, duedate, notes) => {
-    getProject().projectTasks.push([task, duedate, notes])
+    let date = format(new Date(duedate), 'dd/MM/yyyy')
+    getProject().projectTasks.push([task, date, notes])
     hideModal();
     updateMainPane(getProject());
 }

@@ -1,5 +1,6 @@
 import { projectList } from "./projects.js";
 import { showModal } from "./renderPage";
+import { format, formatDistanceToNow, parseISO } from "../node_modules/date-fns";
 
 const projects = projectList().projectsArray
 
@@ -53,7 +54,10 @@ const updateMainPane = (content) => {
                 stepTitle.textContent = task[0];
                 
                 const stepDueDate = document.createElement('p');
-                stepDueDate.textContent = task[1];
+                let date = format(new Date(task[1]), 'eeee do LLLL')
+                
+                console.log(date)
+                stepDueDate.textContent = `Task due in ${formatDistanceToNow(new Date(task[1]))} on ${date}`;
                 stepHeadContainer.append(stepTitle, stepDueDate)
 
                 const stepNotes = document.createElement('p');
