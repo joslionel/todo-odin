@@ -1,5 +1,8 @@
+import { populateProjectList } from "./leftPanelActions";
 import { updateMainPane } from "./mainPanelActions";
-import { projects } from "./projects";
+import { projects } from "./projects"
+
+
 
 const getProject = () => {
     const projectName = document.getElementById('projectName');
@@ -177,6 +180,17 @@ const submitNewTask = (task, duedate, notes) => {
     updateMainPane(getProject());
 }
 
+const removeProject = (projectTitle) => {
+    projects.splice(projectTitle.dataset.index, 1)
+    populateProjectList(projects)
+    hideModal()
+    showModal('removeProject')
+    if (projects[0]) {
+        updateMainPane(projects[0])
+    } else {updateMainPane('default')}
+    
+}
+
 const removeProjectContent = () => {
     const contentBox = document.getElementById('modalContent')
 
@@ -185,7 +199,36 @@ const removeProjectContent = () => {
     const heading = document.createElement('h3');
     heading.textContent = 'Remove project(s)';
 
-    contentBox.append(heading)
+    const projectContainer = document.createElement('div');
+    const projectList = document.createElement('ul')
+    
+    projects.forEach(project => {
+        const projectName = document.createElement('li')
+        projectName.textContent = project.projectName
+        projectList.append(projectName)
+
+        projectName.setAttribute('data-index', projects.indexOf(project, 0))
+
+        projectName.addEventListener('click', function (e) {removeProject(projectName)})
+    });
+
+    const buttonsContainer = document.createElement('div')
+    buttonsContainer.setAttribute('id', 'addTaskButtonsContainer')
+    buttonsContainer.classList.add('justifyContentEnd')
+
+    const closeButton = document.createElement('button');
+    closeButton.setAttribute('id', 'closeModal');
+    closeButton.textContent = 'Close'
+    closeButton.addEventListener('click', function (e) {
+        hideModal()
+    })
+
+    buttonsContainer.append(closeButton)
+
+    projectContainer.append(projectList, buttonsContainer)
+
+    contentBox.append(heading, projectContainer)
+
 
     return contentBox
 }
@@ -193,7 +236,7 @@ const removeProjectContent = () => {
 const removeTask = (taskTitle) => {
     getProject().projectTasks = getProject().projectTasks.filter(project => project[0] != taskTitle.textContent)
     updateMainPane(getProject())
-    showModal('removeTask')    
+    showModal('removeTask')
 }
 
 const removeTaskContent= () => {

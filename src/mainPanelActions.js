@@ -1,5 +1,8 @@
-import { projects } from "./projects.js";
+import { projectList } from "./projects.js";
 import { showModal } from "./renderPage";
+
+const projects = projectList().projectsArray
+
 
 const updateMainPane = (content) => {
     

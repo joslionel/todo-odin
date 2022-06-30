@@ -39,7 +39,7 @@ const addNewProjectField = () => {
 
     addNewField.addEventListener('keypress', function (e) {
         if (e.key === 'Enter') {
-            projects.push(project(`${e.target.value}`, [], 1, '', 0))
+            projects.push(project(`${e.target.value}`, [['Step 1', new Date(), 'A few notes on how to complete this subtask']], 1, '', 0))
             e.target.value = '';
         }
 
@@ -90,4 +90,4 @@ const leftPanelActions = () => {
     
 }
 
-export {leftPanelActions, listOfProjects}
+export {leftPanelActions, listOfProjects, populateProjectList}
