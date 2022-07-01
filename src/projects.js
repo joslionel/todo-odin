@@ -40,6 +40,10 @@ const project = (projectName, projectTasks, projectPriority, dueDate) => {
         }
     }
 
+    const due = (dueDate) => {
+        return format(dueDate, 'dd MM yyyy')
+    }
+
     let tasksCompleted = []
 
     return {
@@ -47,24 +51,44 @@ const project = (projectName, projectTasks, projectPriority, dueDate) => {
         projectTasks,
         tasksCompleted,
         projectPriority,
-        dueDate,
+        due,
         tasksCompleted,
         toggleCompleted,
         getCompleted,
     }
 }
 
+const saveLocal = (project) => {
+    window.localStorage.setItem(project.projectName, JSON.stringify(project))
+}
+
+const retrieveLocal = () => {
+    
+}
+
+const todayDate = new Date()
+let defaultDate = todayDate.setDate(todayDate.getDate() + 7)
+
 projects.push(project(
     'Default Prawbect',
     [
-        ['Step 1', format(new Date(), 'MM/dd/yyyy'), 'Notes about step 1'],
-        ['Step 2', format(new Date(), 'MM/dd/yyyy'), 'Notes about step 1'],
-        ['Step 3', format(new Date(), 'MM/dd/yyyy'), 'Notes about step 1'],
+        ['Step 1', defaultDate, 'Notes about step 1'],
+        ['Step 2', defaultDate, 'Notes about step 1'],
+        ['Step 3', defaultDate, 'Notes about step 1'],
     ],
     1,
     '',
 ))
-projects.push(project('Project 2', [['Task 1', format(new Date(), 'MM/dd/yyyy'), 'Notes about step 1'], ['Task 2', format(new Date(), 'MM/dd/yyyy'), 'Notes about step 1'], ['Task 3', format(new Date(), 'MM/dd/yyyy'), 'Notes about step 1']], 0, ''))
+projects.push(project(
+    'Project 2', 
+    [
+        ['Task 1', defaultDate, 'Notes about step 1'],
+        ['Task 2', defaultDate, 'Notes about step 1'], 
+        ['Task 3', defaultDate, 'Notes about step 1']
+    ], 
+    0, 
+    ''
+))
 projects[1].toggleCompleted()
 
-export {projects, project, projectList}
+export {projects, project, projectList, saveLocal}

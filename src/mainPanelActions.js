@@ -1,11 +1,14 @@
-import { projectList } from "./projects.js";
+import { projectList, saveLocal } from "./projects.js";
 import { showModal } from "./renderPage";
-import { format, formatDistanceToNow, parseISO } from "../node_modules/date-fns";
+import { format, formatDistanceToNow, formatDistance } from "../node_modules/date-fns";
+import { compareAsc } from "date-fns";
 
 const projects = projectList().projectsArray
 
 
 const updateMainPane = (content) => {
+
+    
     
     const projectNameHeading = document.getElementById('projectName')
     const tasksRemaining = document.getElementById('tasksRemaining')
@@ -45,6 +48,14 @@ const updateMainPane = (content) => {
 
         if (content.projectTasks) {
             content.projectTasks.forEach(task => {
+                const isTaskOverDue = () => {
+                    if (compareAsc(new Date(), new Date(task[1])) == 1) {
+                        return true
+                    } else {
+                        return false
+                    }
+                }
+
                 const stepContainer = document.createElement('div')
                 
                 const stepHeadContainer = document.createElement('div');
@@ -54,10 +65,14 @@ const updateMainPane = (content) => {
                 stepTitle.textContent = task[0];
                 
                 const stepDueDate = document.createElement('p');
-                let date = format(new Date(task[1]), 'eeee do LLLL')
                 
-                console.log(date)
-                stepDueDate.textContent = `Task due in ${formatDistanceToNow(new Date(task[1]))} on ${date}`;
+                if (isTaskOverDue()) {
+                    stepDueDate.textContent = `Task overdue by ${formatDistance(new Date(), new Date(task[1]))}`
+                } else {
+                    stepDueDate.textContent = `Task due in ${formatDistance(new Date(), new Date(task[1]))} on ${format(new Date(task[1]), 'EEE dd MMMM')}`;
+                }
+                
+                
                 stepHeadContainer.append(stepTitle, stepDueDate)
 
                 const stepNotes = document.createElement('p');
@@ -78,6 +93,7 @@ const updateMainPane = (content) => {
         mainPane.append(mainPaneTitle, mainPaneDueDate, mainPaneSubTasks, mainPaneComplete)
 
         updateCompletionStatus(project)
+        saveLocal(project)
     }
 
     
