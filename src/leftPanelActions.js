@@ -1,6 +1,6 @@
 import { project, projects } from "./projects.js";
 import { updateMainPane } from "./mainPanelActions";
-import { showModal } from "./renderPage";
+import { createRightPanel, renderPage, showModal } from "./renderPage";
 
 
 const searchBar = () => {
@@ -90,4 +90,4 @@ const leftPanelActions = () => {
     
 }
 
-export {leftPanelActions, listOfProjects, populateProjectList}
+export {leftPanelActions, listOfProjects, populateProjectList   }

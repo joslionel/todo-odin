@@ -10,6 +10,15 @@
     border: 1px solid black;
 }
 
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+.displayNone {
+    display: none;
+}
+
 .spaceBetween {
     display: flex;
     justify-content: space-between;

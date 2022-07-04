@@ -43,7 +43,7 @@ const createLeftPanel = () => {
 
     const deleteProjectButton = document.createElement('button');
     deleteProjectButton.setAttribute('id', 'deleteProjectButton')
-    deleteProjectButton.textContent = 'Delete selected project';
+    deleteProjectButton.textContent = 'Delete a project';
 
     leftPanel.append(navSearchBar, navHeading, projectList, createNewProject, deleteProjectButton);
 
@@ -86,6 +86,10 @@ const createRightPanel = () => {
 
     mainPanel.append(mainPanelHeading, mainTaskList, mainAddTask);
     
+
+    // TODO- add default content which displays when a project is not selected/in-focus
+    // when a project is focused, the mainPanel is unhidden and the default content is hiddens  
+    
     return mainPanel
 }
 
@@ -113,10 +117,6 @@ const createModalWindow = () => {
     return modalParent
 }
 
-// these modal variations should have content & structure inside the functions
-// then thse functions are passed into showModal as switch statement based on parameter
-// that is passed from button click (in the other modules)
-// this will allow the relevant stuff to the applied to the modal window when a button is pressed
 
 const addTaskContent = () => {
     const contentBox = document.getElementById('modalContent')
@@ -344,6 +344,8 @@ const renderPage = () => {
     mainFrame.append(leftPanel, rightPanel, modalWindow);
 
     document.body.append(mainFrame);
+
+    updateMainPane('default')
 
     return {mainFrame}
 }

@@ -1,25 +1,41 @@
 import { projectList, saveLocal } from "./projects.js";
 import { showModal } from "./renderPage";
-import { format, formatDistanceToNow, formatDistance } from "../node_modules/date-fns";
+import { format, formatDistance } from "../node_modules/date-fns";
 import { compareAsc } from "date-fns";
+import { populateProjectList } from "./leftPanelActions.js";
 
 const projects = projectList().projectsArray
 
 
 const updateMainPane = (content) => {
-
-    
     
     const projectNameHeading = document.getElementById('projectName')
     const tasksRemaining = document.getElementById('tasksRemaining')
-    
     const mainPane = document.querySelector('.mainTaskList')
+    const heading = document.getElementById('projectName');
+    const headingBox = document.querySelector('.mainPanel');
+    
 
     mainPane.textContent = ''
 
     if (content == 'default') {
-        mainPane.textContent = 'This is the placeholder content';
+        heading.textContent = 'Start a new project or open an existing project to add tasks';
+        
+        tasksRemaining.classList.add('displayNone')
+        headingBox.firstChild.classList.remove('spaceBetween');
+        headingBox.firstChild.classList.add('center')
+
+        headingBox.childNodes[2].classList.remove('spaceBetween');
+        headingBox.childNodes[2].classList.add('displayNone')
+
     } else {
+        tasksRemaining.classList.remove('displayNone');
+        headingBox.firstChild.classList.add('spaceBetween');
+        headingBox.firstChild.classList.remove('center')
+
+        headingBox.childNodes[2].classList.add('spaceBetween');
+        headingBox.childNodes[2].classList.remove('displayNone')
+
         const project = projects.filter(project => project.projectName == content.projectName)[0]
         let isTaskComplete = ''
         if (project.getCompleted() == 1) {
@@ -46,8 +62,8 @@ const updateMainPane = (content) => {
         mainPaneComplete.textContent = isTaskComplete;
         mainPaneDueDate.textContent = content.dueDate;
 
-        if (content.projectTasks) {
-            content.projectTasks.forEach(task => {
+        if (project.projectTasks) {
+            project.projectTasks.forEach(task => {
                 const isTaskOverDue = () => {
                     if (compareAsc(new Date(), new Date(task[1])) == 1) {
                         return true
@@ -80,10 +96,13 @@ const updateMainPane = (content) => {
 
                 stepContainer.append(stepHeadContainer, stepNotes)
 
-                stepContainer.setAttribute('data-index', `${content.projectTasks.indexOf(task, 0)}`)
+                stepContainer.setAttribute('data-index', `${project.projectTasks.indexOf(task, 0)}`)
+                stepNotes.setAttribute('data-index', `${project.projectTasks.indexOf(task, 0)}`)
+                stepHeadContainer.setAttribute('data-index', `${project.projectTasks.indexOf(task, 0)}`)
 
                 stepContainer.addEventListener('click', function (e) {
                     completeSubTask(project, e)
+                    
                 })
 
                 mainPaneSubTasks.append(stepContainer)
@@ -100,15 +119,17 @@ const updateMainPane = (content) => {
 }
 
 const completeSubTask = (project, e) => {
-    console.log(project.projectTasks[e.target.dataset.index])
     // search the tasksCompleted array for the index of the task that is clicked
     // if it is not in the array, add it. if it is in the array, remove it.
     if (project.tasksCompleted.indexOf(e.target.dataset.index) == -1) {
         project.tasksCompleted.push(e.target.dataset.index)
+        console.log(project.tasksCompleted)
     } else {
         project.tasksCompleted = project.tasksCompleted.filter(tasks => tasks != e.target.dataset.index)
     }
+    saveLocal(project)
     updateMainPane(project)
+    
 }
 
 const updateCompletionStatus = (project) => {
@@ -127,18 +148,21 @@ const updateCompletionStatus = (project) => {
 
 
 const addTask = () => {
-    const addTaskButton = document.getElementById('addTaskButton')
-    addTaskButton.addEventListener('click', function () {
+    if (document.getElementById('addTaskButton')){
+        const addTaskButton = document.getElementById('addTaskButton')
+        addTaskButton.addEventListener('click', function () {
         showModal('addTask')
     })
+    }
 }
 
 const removeTask = () => {
-    const removeTaskButton = document.getElementById('removeTaskButton')
-    removeTaskButton.addEventListener('click', function () {
+    if (document.getElementById('removeTaskButton')) {
+        const removeTaskButton = document.getElementById('removeTaskButton')
+        removeTaskButton.addEventListener('click', function () {
         showModal('removeTask')
     });
-    
+    }
 }
 
 const mainPaneActions = () => {
