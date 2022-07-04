@@ -1,6 +1,6 @@
 import { populateProjectList } from "./leftPanelActions";
 import { updateMainPane } from "./mainPanelActions";
-import { projects } from "./projects"
+import { projects, saveLocal } from "./projects"
 import { format, formatDistanceToNow } from "../node_modules/date-fns/";
 
 
@@ -188,13 +188,22 @@ const submitNewTask = (task, duedate, notes) => {
 }
 
 const removeProject = (projectTitle) => {
+    
     projects.splice(projectTitle.dataset.index, 1)
+    
     populateProjectList(projects)
+    
+    
     hideModal()
     showModal('removeProject')
     if (projects[0]) {
         updateMainPane(projects[0])
     } else {updateMainPane('default')}
+    
+    localStorage.clear()
+    projects.forEach(project => {
+        saveLocal(project)
+    });
     
 }
 

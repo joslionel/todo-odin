@@ -10,7 +10,5 @@ retrieveLocal()
 leftPanelActions();
 mainPaneActions();
 
-// updateMainPane('default')
-
 
 

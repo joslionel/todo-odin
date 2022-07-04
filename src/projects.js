@@ -14,9 +14,9 @@ const projectList = () => {
         if (projectsArray.filter(project => project.projectName == projectName)) {
             let newArray = []
             newArray = projectsArray.filter(project => project.projectName != projectName)
-            console.log(projectsArray.filter(project => project.projectName != projectName))
+            
         } else {
-            console.log('no match')
+            
         }
         
     }
@@ -95,13 +95,14 @@ const saveLocal = (project) => {
         window.localStorage.setItem(project.projectName, JSON.stringify(project), project.tasksCompleted, project.isItFinished, project.dateDue)
     }
     
+    
 }
 
 const retrieveLocal = () => {
 
     // localStorage.clear();   
     
-    console.log(projects)
+    
     
     if (localStorage.length > 0) {
         Object.entries(localStorage).forEach(entry => {

@@ -8,6 +8,8 @@ const projects = projectList().projectsArray
 
 
 const updateMainPane = (content) => {
+
+    console.log(projects)
     
     const projectNameHeading = document.getElementById('projectName')
     const tasksRemaining = document.getElementById('tasksRemaining')
@@ -123,7 +125,7 @@ const completeSubTask = (project, e) => {
     // if it is not in the array, add it. if it is in the array, remove it.
     if (project.tasksCompleted.indexOf(e.target.dataset.index) == -1) {
         project.tasksCompleted.push(e.target.dataset.index)
-        console.log(project.tasksCompleted)
+        
     } else {
         project.tasksCompleted = project.tasksCompleted.filter(tasks => tasks != e.target.dataset.index)
     }
